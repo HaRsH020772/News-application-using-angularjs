@@ -9,7 +9,7 @@ import { CookieService } from 'ngx-cookie-service';
   styleUrls: ['./signuptype.component.css']
 })
 export class SignuptypeComponent implements OnInit {
-
+//main branch
 
   constructor(private toast : NgToastService,private http:HttpClient,private cookieService:CookieService) 
   {
