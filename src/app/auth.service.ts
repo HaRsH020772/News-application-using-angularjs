@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
-import { observable, Observable} from 'rxjs';
 import { AppComponent } from './app.component';
 
 @Injectable({
@@ -17,7 +16,6 @@ export class AuthService {
     return new Promise((resolve,reject) => {
 
       this.user.verifyUserAtMain(token).subscribe(item => {
-        // console.log(item.status);
         if (item.status)
         {
           console.log(item.status);

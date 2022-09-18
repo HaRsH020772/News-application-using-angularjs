@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,7 @@ import { Observable } from 'rxjs';
 export class AppComponent 
 {
   title = 'newsnation';
-  private readonly apiKey = 'bf50514169eb4f8686afc94ffbc929ec';
+  private readonly apiKey = environment.API_KEY;
   constructor(private http:HttpClient)
   {}
 
@@ -31,15 +32,22 @@ export class AppComponent
 
   saveSignupDetail(customerObj:{email:string,password:string,firstName:string,lastName:string,phone:number,tokens:[{token:string}]}):Observable<any>
   {
-    const link = 'http://localhost:1771/our-client/user-signup';
+    const link = environment.HALF_ROUTE + '/user-signup';
     const response = this.http.post(link,customerObj);
     return response;
   }
 
   verifyUserAtMain(token:string):Observable<any>
   {
-    const link = 'http://localhost:1771/our-client/verify-user';
+    const link = environment.HALF_ROUTE + '/verify-user';
     const response = this.http.post(link,{token});
+    return response;
+  }
+
+  verifyUserAtLogin(userObj:{email:string,password:string}):Observable<any>
+  {
+    const link = environment.HALF_ROUTE + '/user-login';
+    const response = this.http.post(link,userObj);
     return response;
   }
 

@@ -1,12 +1,12 @@
 const indusSignUp = require('../schemas/signupSchema');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+
 module.exports.saveSignUpDetails = async (req,res) => {
 
     try
     {
         const {email,password,firstName,lastName,phone} = req.body;
-        console.log('Sign-up working');
         const checkUser = await indusSignUp.findOne({email});
         if(checkUser)
             return res.status(401).send("You have already registered!!");
@@ -22,11 +22,6 @@ module.exports.saveSignUpDetails = async (req,res) => {
             });
 
             const securityToken = await responseData.generateAuthToken();
-            res.cookie("jwt",securityToken,{
-                expires:new Date(Date.now() + 80000),
-                httpOnly:true
-            });
-
             const registerClient = await responseData.save();
             res.status(201).send(registerClient);
         }
@@ -46,19 +41,14 @@ module.exports.verifyLoginUser = async (req,res) => {
 
         if(await bcrypt.compare(password,userVerification.password))
         {
-            res.cookie('jwt',userVerification.tokens[0].token,{
-                expires:new Date(Date.now() + 80000),
-                httpOnly:true
-            });
-
-            return res.status(201).send("Access allowed!!");
+            return res.send(userVerification);
         }
-        return res.status(401).send("Check your credentials!!")
+        return res.send({status:false});
          
     }
     catch(err)
     {
-        res.status(500).send("Error from login page router: "+err)
+        res.send({status:false})
     }
 }
 
@@ -67,7 +57,6 @@ module.exports.verifyJwtUser = async (req,res) => {
         try
         {
             const {token} = req.body;
-            console.log("Verifying process");
             let result = await jwt.verify(token,process.env.private_key);
         
             if(result)
