@@ -29,4 +29,18 @@ export class AppComponent
     return response;
   }
 
+  saveSignupDetail(customerObj:{email:string,password:string,firstName:string,lastName:string,phone:number,tokens:[{token:string}]}):Observable<any>
+  {
+    const link = 'http://localhost:1771/our-client/user-signup';
+    const response = this.http.post(link,customerObj);
+    return response;
+  }
+
+  verifyUserAtMain(token:string):Observable<any>
+  {
+    const link = 'http://localhost:1771/our-client/verify-user';
+    const response = this.http.post(link,{token});
+    return response;
+  }
+
 }

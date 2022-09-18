@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import {NgToastService} from 'ng-angular-popup';
 import { CookieService } from 'ngx-cookie-service';
+import { AppComponent } from '../app.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signuptype',
@@ -11,10 +12,8 @@ import { CookieService } from 'ngx-cookie-service';
 export class SignuptypeComponent implements OnInit {
 //main branch
 
-  constructor(private toast : NgToastService,private http:HttpClient,private cookieService:CookieService) 
-  {
-
-  }
+  constructor(private toast : NgToastService,private user:AppComponent,private cookieService:CookieService,private router:Router) 
+  {}
 
   ngOnInit(): void {
     setInterval(this.trialFunction,2000);
@@ -27,7 +26,8 @@ export class SignuptypeComponent implements OnInit {
     tag.innerHTML = `${topics[Math.floor(Math.random() * 6)]}`;
   }
 
-  saveMyData(userInfoObj:any)
+  //Saving data to database sign-up data
+  async saveMyData(userInfoObj:any)
   {
     for (let key in userInfoObj)
       if(userInfoObj[key] == '')
@@ -42,16 +42,12 @@ export class SignuptypeComponent implements OnInit {
       return;
     }
 
-    const link = 'http://localhost:1771/our-client/user-signup';
-    const response:any = this.http.post(link,userInfoObj).subscribe(item => {
-      console.log(item);
-    });
-
-    // console.log(response['email']);
-
-    // this.cookieService.set("accessToken",response.tokens[0].token);
-
-    // console.log(response);
+    this.user.saveSignupDetail(userInfoObj).subscribe(item => {
+      const myDate = new Date;
+      myDate.setHours(myDate.getHours() + 1);
+      this.cookieService.set("accessToken",item.tokens[0].token,{expires:myDate});
+      this.router.navigate(['/main']);
+    }); 
   }
 
 }

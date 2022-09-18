@@ -1,6 +1,6 @@
 const indusSignUp = require('../schemas/signupSchema');
 const bcrypt = require('bcrypt');
-
+const jwt = require('jsonwebtoken');
 module.exports.saveSignUpDetails = async (req,res) => {
 
     try
@@ -60,4 +60,21 @@ module.exports.verifyLoginUser = async (req,res) => {
     {
         res.status(500).send("Error from login page router: "+err)
     }
+}
+
+module.exports.verifyJwtUser = async (req,res) => {
+
+        try
+        {
+            const {token} = req.body;
+            console.log("Verifying process");
+            let result = await jwt.verify(token,process.env.private_key);
+        
+            if(result)
+                return res.send({status:true});
+        }
+        catch(err)
+        {
+            return res.send({status:false});
+        }
 }

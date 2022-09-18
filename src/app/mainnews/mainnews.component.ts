@@ -62,7 +62,6 @@ export class MainnewsComponent implements OnInit
 
     getSearchValue.value = '';
 
-
   }
 //Share the news via social media
   shareNews(e: any) 

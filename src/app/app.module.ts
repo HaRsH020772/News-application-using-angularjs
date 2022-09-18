@@ -8,6 +8,7 @@ import { MainnewsComponent } from './mainnews/mainnews.component';
 import {HttpClientModule} from '@angular/common/http'
 import { NgToastModule } from 'ng-angular-popup';
 import { CookieService } from 'ngx-cookie-service';
+import { AuthGuard } from './auth.guard';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { CookieService } from 'ngx-cookie-service';
     HttpClientModule,
     NgToastModule
   ],
-  providers: [CookieService],
+  providers: [CookieService,AppComponent,AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
