@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppComponent } from '../app.component';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-mainnews',
@@ -13,7 +14,7 @@ export class MainnewsComponent implements OnInit
   recognitionSvc = (<any>window).SpeechRecognition || (<any>window).webkitSpeechRecognition; 
   recognition = new this.recognitionSvc();
 
-  constructor(private user: AppComponent) 
+  constructor(private user: AppComponent,private cookie:CookieService) 
   {}
 
   ngOnInit(): void {
@@ -101,6 +102,17 @@ export class MainnewsComponent implements OnInit
       this.recognition.start();
     
     searchBtn?.classList.toggle('listening');
+  }
+
+  logoutCustomer(e:any)
+  {
+    if(this.cookie.get('accessToken'))
+    {
+      this.cookie.delete('accessToken');
+      location.reload();
+    }
+    else  
+      console.log("Section called!!");
   }
 
 }
