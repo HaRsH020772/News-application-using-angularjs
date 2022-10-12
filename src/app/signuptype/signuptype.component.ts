@@ -16,7 +16,7 @@ export class SignuptypeComponent implements OnInit {
   {}
 
   ngOnInit(): void {
-    // setInterval(this.trialFunction,2000);
+    setInterval(this.trialFunction,2000);
   }
 
   trialFunction()

@@ -9,13 +9,15 @@ import {HttpClientModule} from '@angular/common/http'
 import { NgToastModule } from 'ng-angular-popup';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthGuard } from './auth.guard';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LogintypeComponent,
     SignuptypeComponent,
-    MainnewsComponent
+    MainnewsComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
